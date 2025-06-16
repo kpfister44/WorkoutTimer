@@ -16,16 +16,38 @@ struct FavoritesView: View {
                     workoutModel.restTime = workout.restTime
                     presentationMode.wrappedValue.dismiss()
                 }) {
-                    VStack(alignment: .leading) {
-                        Text(workout.name)
-                            .font(.headline)
-                        Text("\(workout.rounds) rounds • \(workout.workTime)s work • \(workout.restTime)s rest")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text(workout.name)
+                                .font(.headline)
+                            Text("\(workout.rounds) rounds • \(workout.workTime)s work • \(workout.restTime)s rest")
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                        }
+                        
+                        Spacer()
+                        
+                        Image(systemName: "chevron.right")
+                            .foregroundColor(.gray)
+                            .font(.system(size: 14, weight: .semibold))
                     }
                 }
             }
-            .onDelete(perform: deleteWorkout)
+            .onDelete(perform: handleDeleteWorkout)
+            
+            if !favorites.isEmpty {
+                Text("Swipe left on a workout to delete it")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.vertical, 8)
+            } else {
+                Text("Click the + button to save your commonly used workout timers")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.vertical, 8)
+            }
         }
         .navigationTitle("Favorite Workouts")
         .toolbar {
@@ -68,7 +90,7 @@ struct FavoritesView: View {
         }
     }
     
-    func deleteWorkout(at offsets: IndexSet) {
+    func handleDeleteWorkout(at offsets: IndexSet) {
         offsets.forEach { index in
             FavoriteWorkoutsManager.shared.deleteWorkout(withId: favorites[index].id)
         }

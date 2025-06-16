@@ -155,7 +155,7 @@ struct WorkoutSettingsView: View {
                 .padding(.top)
         }
         .padding()
-        .frame(width: 350)
+        .frame(width: 300)
         #if os(iOS)
         .background(Color(UIColor.systemGray6))
         #else
