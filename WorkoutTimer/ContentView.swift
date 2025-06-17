@@ -13,26 +13,40 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 30) {
-                // Add padding at the top to create space below the navigation title
-                Spacer()
-                    .frame(height: 10)
+                Spacer().frame(height: 10)
                 
-                // Timer display
-                TimerDisplayView(workoutModel: workoutModel)
-                    .padding(.top, 10)
-                
-                // Workout settings
-                if !workoutModel.isActive && workoutModel.currentRound == 0 {
-                    WorkoutSettingsView(workoutModel: workoutModel)
-                } else {
-                    // Workout status
+                if workoutModel.isActive || workoutModel.currentRound > 0 {
+                    // Timer display only during an active workout
+                    TimerDisplayView(workoutModel: workoutModel)
                     WorkoutStatusView(workoutModel: workoutModel)
+                    ControlsView(workoutModel: workoutModel)
+                } else {
+                    Spacer()
+                    RoundsPickerView(rounds: $workoutModel.rounds)
+                        .padding(.bottom, 24)
+                    WorkoutSettingsView(workoutModel: workoutModel)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 24)
+                    Spacer()
+                    VStack(spacing: 8) {
+                        Button(action: {
+                            workoutModel.startWorkout()
+                        }) {
+                            Text("START")
+                                .font(.title2)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.green)
+                                .foregroundColor(.white)
+                                .cornerRadius(12)
+                        }
+                        Text("Total: \(formatTotalTime(workoutModel.totalTime))")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                    }
+                    .padding(.horizontal)
                 }
-                
-                // Controls
-                ControlsView(workoutModel: workoutModel)
-                
-                Spacer()
+                Spacer(minLength: 0)
             }
             .padding()
             .navigationTitle("Workout Timer")
@@ -45,7 +59,6 @@ struct ContentView: View {
                         .font(.system(size: 32, weight: .bold))
                         .foregroundColor(.primary)
                 }
-                
                 #if os(iOS)
                 ToolbarItem(placement: .navigationBarTrailing) {
                     NavigationLink(destination: FavoritesView(workoutModel: workoutModel)) {
@@ -63,6 +76,12 @@ struct ContentView: View {
                 #endif
             }
         }
+    }
+    
+    private func formatTotalTime(_ seconds: Int) -> String {
+        let minutes = seconds / 60
+        let remainingSeconds = seconds % 60
+        return String(format: "%02d:%02d", minutes, remainingSeconds)
     }
 }
 
@@ -112,67 +131,6 @@ struct TimerDisplayView: View {
         let minutes = seconds / 60
         let remainingSeconds = seconds % 60
         return String(format: "%02d:%02d", minutes, remainingSeconds)
-    }
-}
-
-struct WorkoutSettingsView: View {
-    @ObservedObject var workoutModel: WorkoutModel
-    
-    var body: some View {
-        VStack(spacing: 30) {
-            Text("Workout Settings")
-                .font(.headline)
-            
-            HStack {
-                Text("Rounds:")
-                Spacer()
-                Text("\(workoutModel.rounds) rds")
-                    .frame(width: 80, alignment: .trailing)
-                Stepper("\(workoutModel.rounds)", value: $workoutModel.rounds, in: 1...20)
-                    .frame(width: 100)
-            }
-            
-            HStack {
-                Text("Work:")
-                Spacer()
-                Text("\(workoutModel.workTime) sec")
-                    .frame(width: 80, alignment: .trailing)
-                Stepper("", value: $workoutModel.workTime, in: 5...300, step: 5)
-                    .frame(width: 100)
-            }
-            
-            HStack {
-                Text("Rest:")
-                Spacer()
-                Text("\(workoutModel.restTime) sec")
-                    .frame(width: 80, alignment: .trailing)
-                Stepper("", value: $workoutModel.restTime, in: 5...300, step: 5)
-                    .frame(width: 100)
-            }
-            
-            Text("Total Time: \(formatTotalTime(workoutModel.totalTime))")
-                .font(.subheadline)
-                .padding(.top)
-        }
-        .padding()
-        .frame(width: 300)
-        #if os(iOS)
-        .background(Color(UIColor.systemGray6))
-        #else
-        .background(Color.gray.opacity(0.2))
-        #endif
-        .cornerRadius(10)
-    }
-    
-    private func formatTotalTime(_ seconds: Int) -> String {
-        let minutes = seconds / 60
-        let remainingSeconds = seconds % 60
-        
-        if minutes > 0 {
-            return "\(minutes)m \(remainingSeconds)s"
-        } else {
-            return "\(seconds)s"
-        }
     }
 }
 
