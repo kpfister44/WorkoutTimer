@@ -33,15 +33,15 @@ struct ContentView: View {
                             workoutModel.startWorkout()
                         }) {
                             Text("START")
-                                .font(.title2)
+                                .font(.system(size: 28, weight: .bold))
                                 .frame(maxWidth: .infinity)
                                 .padding()
                                 .background(Color.green)
                                 .foregroundColor(.white)
                                 .cornerRadius(12)
                         }
-                        Text("Total: \(formatTotalTime(workoutModel.totalTime))")
-                            .font(.subheadline)
+                        Text("TOTAL TIME: \(formatTotalTime(workoutModel.totalTime))")
+                            .font(.system(size: 28, weight: .bold))
                             .foregroundColor(.secondary)
                     }
                     .padding(.horizontal)
@@ -49,14 +49,14 @@ struct ContentView: View {
                 Spacer(minLength: 0)
             }
             .padding()
-            .navigationTitle("Workout Timer")
+            .navigationTitle("WORKOUT TIMER")
             #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
             #endif
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    Text("Workout Timer")
-                        .font(.system(size: 32, weight: .bold))
+                    Text("WORKOUT TIMER")
+                        .font(.system(size: 36, weight: .bold))
                         .foregroundColor(.primary)
                 }
                 #if os(iOS)
@@ -140,8 +140,8 @@ struct WorkoutStatusView: View {
     var body: some View {
         VStack(spacing: 30) {
             // Round information
-            Text("Round \(workoutModel.currentRound) of \(workoutModel.rounds)")
-                .font(.title)
+            Text("ROUND \(workoutModel.currentRound) OF \(workoutModel.rounds)")
+                .font(.system(size: 28, weight: .bold))
                 .fontWeight(.bold)
                 .foregroundColor(.primary)
             
@@ -150,7 +150,7 @@ struct WorkoutStatusView: View {
                 // Work section
                 VStack(spacing: 8) {
                     Text("WORK")
-                        .font(.caption)
+                        .font(.system(size: 24, weight: .bold))
                         .fontWeight(.semibold)
                         .foregroundColor(.green)
                         .tracking(1.5)
@@ -159,8 +159,8 @@ struct WorkoutStatusView: View {
                         .font(.system(size: 36, weight: .bold, design: .monospaced))
                         .foregroundColor(.green)
                     
-                    Text("seconds")
-                        .font(.caption)
+                    Text("SECONDS")
+                        .font(.system(size: 16, weight: .bold))
                         .foregroundColor(.secondary)
                 }
                 .frame(maxWidth: .infinity)
@@ -171,7 +171,7 @@ struct WorkoutStatusView: View {
                 // Rest section
                 VStack(spacing: 8) {
                     Text("REST")
-                        .font(.caption)
+                        .font(.system(size: 24, weight: .bold))
                         .fontWeight(.semibold)
                         .foregroundColor(.orange)
                         .tracking(1.5)
@@ -180,8 +180,8 @@ struct WorkoutStatusView: View {
                         .font(.system(size: 36, weight: .bold, design: .monospaced))
                         .foregroundColor(.orange)
                     
-                    Text("seconds")
-                        .font(.caption)
+                    Text("SECONDS")
+                        .font(.system(size: 16, weight: .bold))
                         .foregroundColor(.secondary)
                 }
                 .frame(maxWidth: .infinity)

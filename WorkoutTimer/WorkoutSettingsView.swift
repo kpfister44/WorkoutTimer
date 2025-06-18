@@ -163,10 +163,13 @@ struct TimePickerSheet: View {
             .padding(.vertical, 10)
 
             // Done button
-            Button("DONE") {
+            Button(action: {
                 onDone(minutes * 60 + seconds)
+            }) {
+                Text("DONE")
+                    .font(.system(size: 28, weight: .bold))
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-            .font(.headline)
             .frame(width: pickerWidth, height: 72)
             .background(Color(.systemGray4))
             .cornerRadius(12)

@@ -6,7 +6,7 @@ struct RoundsPickerView: View {
     var body: some View {
         VStack(spacing: 8) {
             Text("ROUNDS")
-                .font(.title2)
+                .font(.system(size: 28, weight: .bold))
                 .foregroundColor(.red)
             HStack(spacing: 40) {
                 Button(action: {
