@@ -13,33 +13,30 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) { 
-                // Centered Title
-                HStack(alignment: .center) {
-                    // Hidden placeholder on the left to balance the layout
-                    NavigationLink(destination: FavoritesView(workoutModel: workoutModel)) {
-                        Image(systemName: "star.fill")
-                            .font(.caption)
-                            .foregroundColor(.blue)
-                    }
-                    .hidden() // Makes it invisible but preserves its space
-                    
-                    Spacer()
-                    
-                    Text("WORKOUT TIMER")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                    
-                    Spacer()
-                    
-                    // Visible button on the right
-                    NavigationLink(destination: FavoritesView(workoutModel: workoutModel)) {
-                        Image(systemName: "star.fill")
+                // Custom Header using a ZStack
+                ZStack {
+                    // This HStack will center the title perfectly
+                    HStack {
+                        Spacer()
+                        Text("WORKOUT TIMER")
                             .font(.title)
-                            .foregroundColor(.blue)
+                            .fontWeight(.bold)
+                        Spacer()
                     }
-                    .disabled(workoutModel.isActive)
+                    
+                    // This HStack overlays the button on the right when the workout is not active
+                    HStack {
+                        Spacer()
+                        if !workoutModel.isActive {
+                            NavigationLink(destination: FavoritesView(workoutModel: workoutModel)) {
+                                Image(systemName: "line.3.horizontal")
+                                    .font(.title) 
+                                    .foregroundColor(.blue)
+                            }
+                        }
+                    }
                 }
-                .padding() // Give the header some space from the screen edges
+                .padding()
 
                 if workoutModel.isActive || workoutModel.currentRound > 0 {
                     // Timer display only during an active workout
