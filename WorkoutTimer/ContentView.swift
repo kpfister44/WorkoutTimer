@@ -12,14 +12,42 @@ struct ContentView: View {
     
     var body: some View {
         NavigationStack {
-            VStack(spacing: 30) {
-                Spacer().frame(height: 10)
-                
+            VStack(spacing: 0) { 
+                // Centered Title
+                HStack(alignment: .center) {
+                    // Hidden placeholder on the left to balance the layout
+                    NavigationLink(destination: FavoritesView(workoutModel: workoutModel)) {
+                        Image(systemName: "star.fill")
+                            .font(.caption)
+                            .foregroundColor(.blue)
+                    }
+                    .hidden() // Makes it invisible but preserves its space
+                    
+                    Spacer()
+                    
+                    Text("WORKOUT TIMER")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                    
+                    Spacer()
+                    
+                    // Visible button on the right
+                    NavigationLink(destination: FavoritesView(workoutModel: workoutModel)) {
+                        Image(systemName: "star.fill")
+                            .font(.title)
+                            .foregroundColor(.blue)
+                    }
+                    .disabled(workoutModel.isActive)
+                }
+                .padding() // Give the header some space from the screen edges
+
                 if workoutModel.isActive || workoutModel.currentRound > 0 {
                     // Timer display only during an active workout
+                    Spacer()
                     TimerDisplayView(workoutModel: workoutModel)
                     WorkoutStatusView(workoutModel: workoutModel)
                     ControlsView(workoutModel: workoutModel)
+                    Spacer()
                 } else {
                     Spacer()
                     RoundsPickerView(rounds: $workoutModel.rounds)
@@ -33,7 +61,8 @@ struct ContentView: View {
                             workoutModel.startWorkout()
                         }) {
                             Text("START")
-                                .font(.system(size: 28, weight: .bold))
+                                .font(.title)
+                                .fontWeight(.bold)
                                 .frame(maxWidth: .infinity)
                                 .padding()
                                 .background(Color.green)
@@ -41,39 +70,12 @@ struct ContentView: View {
                                 .cornerRadius(12)
                         }
                         Text("TOTAL TIME: \(formatTotalTime(workoutModel.totalTime))")
-                            .font(.system(size: 28, weight: .bold))
+                            .font(.title)
+                            .fontWeight(.bold)
                             .foregroundColor(.secondary)
                     }
-                    .padding(.horizontal)
+                    .padding()
                 }
-                Spacer(minLength: 0)
-            }
-            .padding()
-            .navigationTitle("WORKOUT TIMER")
-            #if os(iOS)
-            .navigationBarTitleDisplayMode(.inline)
-            #endif
-            .toolbar {
-                ToolbarItem(placement: .principal) {
-                    Text("WORKOUT TIMER")
-                        .font(.system(size: 36, weight: .bold))
-                        .foregroundColor(.primary)
-                }
-                #if os(iOS)
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: FavoritesView(workoutModel: workoutModel)) {
-                        Image(systemName: "star.fill")
-                    }
-                    .disabled(workoutModel.isActive)
-                }
-                #else
-                ToolbarItem {
-                    NavigationLink(destination: FavoritesView(workoutModel: workoutModel)) {
-                        Image(systemName: "star.fill")
-                    }
-                    .disabled(workoutModel.isActive)
-                }
-                #endif
             }
         }
     }

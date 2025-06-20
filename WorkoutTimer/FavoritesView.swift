@@ -20,8 +20,9 @@ struct FavoritesView: View {
                         VStack(alignment: .leading) {
                             Text(workout.name)
                                 .font(.headline)
+                                .fontWeight(.bold)
                             Text("\(workout.rounds) rounds • \(workout.workTime)s work • \(workout.restTime)s rest")
-                                .font(.subheadline)
+                                .font(.caption)
                                 .foregroundColor(.secondary)
                         }
                         
@@ -29,7 +30,7 @@ struct FavoritesView: View {
                         
                         Image(systemName: "chevron.right")
                             .foregroundColor(.gray)
-                            .font(.system(size: 14, weight: .semibold))
+                            .font(.subheadline)
                     }
                 }
             }
@@ -51,12 +52,18 @@ struct FavoritesView: View {
         }
         .navigationTitle("Favorite Workouts")
         .toolbar {
+            ToolbarItem(placement: .principal) {
+                Text("Favorite Workouts")
+                    .font(.title2)
+                    .fontWeight(.bold)
+            }
             #if os(iOS)
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
                     showingAddFavorite = true
                 }) {
                     Image(systemName: "plus")
+                        .font(.headline)
                 }
             }
             #else
@@ -65,6 +72,7 @@ struct FavoritesView: View {
                     showingAddFavorite = true
                 }) {
                     Image(systemName: "plus")
+                        .font(.headline)
                 }
             }
             #endif

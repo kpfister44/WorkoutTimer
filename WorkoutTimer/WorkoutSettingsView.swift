@@ -21,14 +21,16 @@ struct WorkoutSettingsView: View {
         VStack(spacing: 40) {
             HStack {
                 Text("WORK")
-                    .font(.system(size: 32, weight: .bold))
+                    .font(.title)
+                    .fontWeight(.bold)
                 Spacer()
                 Button(action: {
                     pickerType = .work
                     showingPicker = true
                 }) {
                     Text(timeString(from: workoutModel.workTime))
-                        .font(.system(size: 32, weight: .bold))
+                        .font(.title)
+                        .fontWeight(.bold)
                         .foregroundColor(.white)
                         .padding(.horizontal, 28)
                         .padding(.vertical, 12)
@@ -40,14 +42,16 @@ struct WorkoutSettingsView: View {
             }
             HStack {
                 Text("REST")
-                    .font(.system(size: 32, weight: .bold))
+                    .font(.title)
+                    .fontWeight(.bold)
                 Spacer()
                 Button(action: {
                     pickerType = .rest
                     showingPicker = true
                 }) {
                     Text(timeString(from: workoutModel.restTime))
-                        .font(.system(size: 32, weight: .bold))
+                        .font(.title)
+                        .fontWeight(.bold)
                         .foregroundColor(.white)
                         .padding(.horizontal, 28)
                         .padding(.vertical, 12)
@@ -114,10 +118,12 @@ struct TimePickerSheet: View {
             // Colored box with label and time
             VStack(spacing: 10) {
                 Text(title.uppercased())
-                    .font(.headline)
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
                     .foregroundColor(.white)
                 Text(String(format: "%02d:%02d", minutes, seconds))
-                    .font(.system(size: 72, weight: .bold, design: .monospaced))
+                    .font(.system(.largeTitle, design: .monospaced)) 
+                    .fontWeight(.bold)
                     .foregroundColor(.white)
             }
             .frame(width: pickerWidth, height: 220)
@@ -167,7 +173,8 @@ struct TimePickerSheet: View {
                 onDone(minutes * 60 + seconds)
             }) {
                 Text("DONE")
-                    .font(.system(size: 28, weight: .bold))
+                    .font(.title)
+                    .fontWeight(.bold)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
             .frame(width: pickerWidth, height: 72)
