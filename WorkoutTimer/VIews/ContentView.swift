@@ -12,7 +12,7 @@ struct ContentView: View {
     
     var body: some View {
         NavigationStack {
-            VStack(spacing: 0) { 
+            VStack(spacing: 8) { 
                 // Custom Header using a ZStack
                 ZStack {
                     // This HStack will center the title perfectly
@@ -46,14 +46,10 @@ struct ContentView: View {
                     ControlsView(workoutModel: workoutModel)
                     Spacer()
                 } else {
-                    Spacer()
-                    RoundsPickerView(rounds: $workoutModel.rounds)
-                        .padding(.bottom, 24)
-                    WorkoutSettingsView(workoutModel: workoutModel)
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 24)
-                    Spacer()
-                    VStack(spacing: 8) {
+                    VStack(spacing: 24) {
+                        RoundsPickerView(rounds: $workoutModel.rounds)
+                        WorkoutSettingsView(workoutModel: workoutModel)
+                        Spacer()
                         Button(action: {
                             workoutModel.startWorkout()
                         }) {
@@ -71,8 +67,9 @@ struct ContentView: View {
                             .fontWeight(.bold)
                             .foregroundColor(.secondary)
                     }
-                    .padding()
+                    .padding(.horizontal, 24)
                 }
+                Spacer()
             }
         }
     }

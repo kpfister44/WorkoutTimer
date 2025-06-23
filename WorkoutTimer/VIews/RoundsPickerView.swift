@@ -9,6 +9,7 @@ struct RoundsPickerView: View {
                 .font(.title)
                 .fontWeight(.bold)
                 .foregroundColor(.red)
+                .frame(maxWidth: .infinity)
             HStack(spacing: 40) {
                 Button(action: {
                     if rounds > 1 { rounds -= 1 }
@@ -31,6 +32,7 @@ struct RoundsPickerView: View {
             }
         }
         .padding()
+        .frame(height: 200)
         .background(Color(.systemGray6))
         .cornerRadius(24)
         .shadow(radius: 2)
