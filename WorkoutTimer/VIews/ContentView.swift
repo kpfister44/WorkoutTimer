@@ -9,31 +9,32 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject private var workoutModel = WorkoutModel()
+    @State private var showingSettings = false
+    @AppStorage("isDarkMode") private var isDarkMode = false
     
     var body: some View {
         NavigationStack {
             VStack(spacing: 8) { 
-                // Custom Header using a ZStack
-                ZStack {
-                    // This HStack will center the title perfectly
-                    HStack {
-                        Spacer()
-                        Text("WORKOUT TIMER")
+                HStack {
+                    // Left icon: Hamburger menu
+                    NavigationLink(destination: FavoritesView(workoutModel: workoutModel)) {
+                        Image(systemName: "line.3.horizontal")
                             .font(.title)
-                            .fontWeight(.bold)
-                        Spacer()
+                            .foregroundColor(.blue)
                     }
-                    
-                    // This HStack overlays the button on the right when the workout is not active
-                    HStack {
-                        Spacer()
-                        if !workoutModel.isActive {
-                            NavigationLink(destination: FavoritesView(workoutModel: workoutModel)) {
-                                Image(systemName: "line.3.horizontal")
-                                    .font(.title) 
-                                    .foregroundColor(.blue)
-                            }
-                        }
+                    Spacer()
+                    // Centered title
+                    Text("WORKOUT TIMER")
+                        .font(.title)
+                        .fontWeight(.bold)
+                    Spacer()
+                    // Right icon: Settings
+                    Button(action: {
+                        showingSettings = true
+                    }) {
+                        Image(systemName: "gearshape")
+                            .font(.title2)
+                            .foregroundColor(.blue)
                     }
                 }
                 .padding()
@@ -72,6 +73,12 @@ struct ContentView: View {
                 Spacer()
             }
         }
+        .sheet(isPresented: $showingSettings) {
+            SettingsView()
+                .presentationDetents([.large])
+                .presentationDragIndicator(.visible)
+        }
+        .preferredColorScheme(isDarkMode ? .dark : .light)
     }
     
     private func formatTotalTime(_ seconds: Int) -> String {
