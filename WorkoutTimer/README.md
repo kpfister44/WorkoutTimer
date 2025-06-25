@@ -2,7 +2,7 @@
 
 A clean, intuitive iOS app for interval training workouts with customizable work and rest periods.
 
-![iOS 15.6+](https://img.shields.io/badge/iOS-15.6+-blue.svg)
+![iOS 16.0+](https://img.shields.io/badge/iOS-16.0+-blue.svg)
 ![Swift 5.0](https://img.shields.io/badge/Swift-5.0-orange.svg)
 ![SwiftUI](https://img.shields.io/badge/SwiftUI-Yes-green.svg)
 
@@ -30,18 +30,36 @@ A clean, intuitive iOS app for interval training workouts with customizable work
 - Intuitive controls (play, pause, resume, reset)
 - Real-time workout status display
 
-### �� **Privacy First**
+### 🔒 **Privacy First**
 - No data collection or external transmission
 - All data stored locally on your device
 - No third-party analytics or tracking
 
 ## Screenshots
 
-*[Add screenshots of your app here - you can take them from the simulator or device]*
+### Home Page
+![Home Page](WorkoutTimer/Screenshots/home_page.png)
+*Main interface for setting up and starting workouts*
+
+### Active Workout
+![Active Workout](WorkoutTimer/Screenshots/work.png)
+*Timer display during an active workout session*
+
+### Time Picker
+![Time Picker](WorkoutTimer/Screenshots/time_picker.png)
+*Custom time picker for setting work and rest intervals*
+
+### Favorites
+![Favorites](WorkoutTimer/Screenshots/favorites.png)
+*Manage and access your saved workout configurations*
+
+### Settings
+![Settings](WorkoutTimer/Screenshots/settings.png)
+*App settings including dark mode and privacy policy*
 
 ## Requirements
 
-- iOS 15.6+
+- iOS 16.0+
 - Xcode 15.0+
 - Swift 5.0+
 
