@@ -1,16 +1,23 @@
 import SwiftUI
 
+/// View for displaying and managing favorite workouts.
 struct FavoritesView: View {
+    /// Reference to the workout model for updating workout settings.
     @ObservedObject var workoutModel: WorkoutModel
+    /// List of favorite workouts loaded from persistent storage.
     @State private var favorites = FavoriteWorkoutsManager.shared.getFavorites()
+    /// Controls the display of the add favorite workout alert.
     @State private var showingAddFavorite = false
+    /// Text field for entering the name of a new favorite workout.
     @State private var newWorkoutName = ""
+    /// Environment variable for dismissing this view.
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         List {
             ForEach(favorites) { workout in
                 Button(action: {
+                    // Load the selected workout settings into the workout model.
                     workoutModel.rounds = workout.rounds
                     workoutModel.workTime = workout.workTime
                     workoutModel.restTime = workout.restTime
@@ -36,6 +43,7 @@ struct FavoritesView: View {
             }
             .onDelete(perform: handleDeleteWorkout)
             
+            // Display helpful instructions based on whether favorites exist.
             if !favorites.isEmpty {
                 Text("Swipe left on a workout to delete it")
                     .font(.caption)
@@ -82,6 +90,7 @@ struct FavoritesView: View {
             Button("Cancel", role: .cancel) { }
             Button("Save") {
                 if !newWorkoutName.isEmpty {
+                    // Save the current workout settings as a favorite.
                     FavoriteWorkoutsManager.shared.saveWorkout(
                         name: newWorkoutName,
                         rounds: workoutModel.rounds,
@@ -94,10 +103,13 @@ struct FavoritesView: View {
             }
         }
         .onAppear {
+            // Refresh the favorites list when the view appears.
             favorites = FavoriteWorkoutsManager.shared.getFavorites()
         }
     }
     
+    /// Handles deletion of favorite workouts from the list.
+    /// - Parameter offsets: The indices of workouts to delete.
     func handleDeleteWorkout(at offsets: IndexSet) {
         offsets.forEach { index in
             FavoriteWorkoutsManager.shared.deleteWorkout(withId: favorites[index].id)

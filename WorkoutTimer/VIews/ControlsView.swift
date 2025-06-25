@@ -1,12 +1,14 @@
 import SwiftUI
 
+/// View containing workout control buttons (play, pause, resume, reset).
 struct ControlsView: View {
+    /// Reference to the workout model for controlling workout state.
     @ObservedObject var workoutModel: WorkoutModel
     
     var body: some View {
         HStack(spacing: 30) {
             if workoutModel.isActive {
-                // Pause button
+                // Pause button - shown when workout is currently running.
                 Button(action: {
                     workoutModel.pauseWorkout()
                 }) {
@@ -16,7 +18,7 @@ struct ControlsView: View {
                         .foregroundColor(.orange)
                 }
             } else if workoutModel.currentRound > 0 {
-                // Resume button
+                // Resume button - shown when workout is paused but has progress.
                 Button(action: {
                     workoutModel.resumeWorkout()
                 }) {
@@ -26,7 +28,7 @@ struct ControlsView: View {
                         .foregroundColor(.green)
                 }
             } else {
-                // Start button
+                // Start button - shown when no workout is in progress.
                 Button(action: {
                     workoutModel.startWorkout()
                 }) {
@@ -37,7 +39,7 @@ struct ControlsView: View {
                 }
             }
             
-            // Reset button
+            // Reset button - always visible to reset workout to initial state.
             Button(action: {
                 workoutModel.resetWorkout()
             }) {

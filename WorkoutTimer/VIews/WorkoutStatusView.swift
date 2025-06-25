@@ -1,19 +1,21 @@
 import SwiftUI
 
+/// View displaying current workout status including round progress and time intervals.
 struct WorkoutStatusView: View {
+    /// Reference to the workout model for accessing current workout state and settings.
     @ObservedObject var workoutModel: WorkoutModel
     
     var body: some View {
         VStack(spacing: 30) {
-            // Round information
+            // Current round progress display.
             Text("ROUND \(workoutModel.currentRound) OF \(workoutModel.rounds)")
                 .font(.title)
                 .fontWeight(.bold)
                 .foregroundColor(.primary)
             
-            // Work and Rest intervals
+            // Work and Rest interval information cards.
             HStack(spacing: 30) {
-                // Work section
+                // Work interval card with green theme.
                 VStack(spacing: 8) {
                     Text("WORK")
                         .font(.title2)
@@ -36,7 +38,7 @@ struct WorkoutStatusView: View {
                 .background(Color.green.opacity(0.1))
                 .cornerRadius(12)
                 
-                // Rest section
+                // Rest interval card with orange theme.
                 VStack(spacing: 8) {
                     Text("REST")
                         .font(.title2)

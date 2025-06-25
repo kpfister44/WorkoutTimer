@@ -7,18 +7,24 @@
 
 import SwiftUI
 
+/// View for configuring work and rest time intervals for workouts.
 struct WorkoutSettingsView: View {
+    /// Reference to the workout model for updating time settings.
     @ObservedObject var workoutModel: WorkoutModel
     
+    /// Controls the display of the time picker sheet.
     @State private var showingPicker: Bool = false
+    /// Determines which time setting is being edited (work or rest).
     @State private var pickerType: PickerType = .work
     
+    /// Enum to distinguish between work and rest time picker types.
     enum PickerType {
         case work, rest
     }
     
     var body: some View {
         VStack(spacing: 40) {
+            // Work time setting row.
             HStack {
                 Text("WORK")
                     .font(.title)
@@ -40,6 +46,8 @@ struct WorkoutSettingsView: View {
                         .fixedSize()
                 }
             }
+            
+            // Rest time setting row.
             HStack {
                 Text("REST")
                     .font(.title)
@@ -84,6 +92,9 @@ struct WorkoutSettingsView: View {
         }
     }
     
+    /// Converts seconds to a formatted time string (MM:SS).
+    /// - Parameter seconds: The number of seconds to format.
+    /// - Returns: A formatted time string.
     private func timeString(from seconds: Int) -> String {
         let minutes = seconds / 60
         let remainingSeconds = seconds % 60
@@ -91,18 +102,34 @@ struct WorkoutSettingsView: View {
     }
 }
 
+/// Sheet view for picking time intervals with wheel pickers and quick-select buttons.
 struct TimePickerSheet: View {
+    /// Title to display at the top of the picker.
     let title: String
+    /// Color theme for the picker header.
     let color: Color
+    /// Initial time value in seconds.
     let initialSeconds: Int
+    /// Callback when time selection is confirmed.
     let onDone: (Int) -> Void
+    /// Callback when time selection is cancelled.
     let onCancel: () -> Void
 
+    /// Selected minutes value.
     @State private var minutes: Int
+    /// Selected seconds value.
     @State private var seconds: Int
 
+    /// Width of the picker components, accounting for screen padding.
     private let pickerWidth: CGFloat = UIScreen.main.bounds.width - 36 // 18pt padding each side
 
+    /// Initializes the time picker with the given parameters.
+    /// - Parameters:
+    ///   - title: The title to display.
+    ///   - color: The color theme for the header.
+    ///   - initialSeconds: The initial time value in seconds.
+    ///   - onDone: Callback for when time selection is confirmed.
+    ///   - onCancel: Callback for when time selection is cancelled.
     init(title: String, color: Color, initialSeconds: Int, onDone: @escaping (Int) -> Void, onCancel: @escaping () -> Void) {
         self.title = title
         self.color = color
@@ -115,7 +142,7 @@ struct TimePickerSheet: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            // Colored box with label and time
+            // Colored header box with title and current time display.
             VStack(spacing: 10) {
                 Text(title.uppercased())
                     .font(.largeTitle)
@@ -130,7 +157,7 @@ struct TimePickerSheet: View {
             .background(color)
             .cornerRadius(24)
 
-            // Quick-pick buttons
+            // Quick-select buttons for common time intervals.
             HStack(spacing: 12) {
                 ForEach([10, 15, 20], id: \.self) { quick in
                     Button(action: {
@@ -150,7 +177,7 @@ struct TimePickerSheet: View {
             .padding(.top, 18)
             .padding(.bottom, 10)
 
-            // Wheel pickers
+            // Wheel pickers for minutes and seconds selection.
             HStack(spacing: 0) {
                 Picker("Minutes", selection: $minutes) {
                     ForEach(0..<60) { Text("\($0) mins") }
@@ -168,7 +195,7 @@ struct TimePickerSheet: View {
             .cornerRadius(12)
             .padding(.vertical, 10)
 
-            // Done button
+            // Done button to confirm time selection.
             Button(action: {
                 onDone(minutes * 60 + seconds)
             }) {
