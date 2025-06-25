@@ -38,23 +38,23 @@ A clean, intuitive iOS app for interval training workouts with customizable work
 ## Screenshots
 
 ### Home Page
-![Home Page](WorkoutTimer/Screenshots/home_page.png)
+![Home Page](Screenshots/home_page.png)
 *Main interface for setting up and starting workouts*
 
 ### Active Workout
-![Active Workout](WorkoutTimer/Screenshots/work.png)
+![Active Workout](Screenshots/work.png)
 *Timer display during an active workout session*
 
 ### Time Picker
-![Time Picker](WorkoutTimer/Screenshots/time_picker.png)
+![Time Picker](Screenshots/time_picker.png)
 *Custom time picker for setting work and rest intervals*
 
 ### Favorites
-![Favorites](WorkoutTimer/Screenshots/favorites.png)
+![Favorites](Screenshots/favorites.png)
 *Manage and access your saved workout configurations*
 
 ### Settings
-![Settings](WorkoutTimer/Screenshots/settings.png)
+![Settings](Screenshots/settings.png)
 *App settings including dark mode and privacy policy*
 
 ## Requirements
