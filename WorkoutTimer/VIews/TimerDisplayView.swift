@@ -17,7 +17,7 @@ struct TimerDisplayView: View {
             Circle()
                 .trim(from: 0.0, to: progressFraction)
                 .stroke(style: StrokeStyle(lineWidth: 20, lineCap: .round, lineJoin: .round))
-                .foregroundColor(workoutModel.isWorking ? Color.green : Color.orange)
+                .foregroundColor(progressColor)
                 .rotationEffect(Angle(degrees: 270.0))
                 .animation(.linear, value: progressFraction)
             
@@ -28,11 +28,11 @@ struct TimerDisplayView: View {
                     .font(.system(.largeTitle, design: .monospaced))
                     .fontWeight(.bold)
                 
-                // Work/Rest status indicator (only shown when workout is active).
+                // Work/Rest/Prep status indicator (only shown when workout is active).
                 if workoutModel.isActive {
-                    Text(workoutModel.isWorking ? "WORK" : "REST")
+                    Text(statusText)
                         .font(.title)
-                        .foregroundColor(workoutModel.isWorking ? .green : .orange)
+                        .foregroundColor(statusColor)
                         .fontWeight(.bold)
                 }
             }
@@ -44,8 +44,48 @@ struct TimerDisplayView: View {
     private var progressFraction: CGFloat {
         if workoutModel.timeRemaining == 0 { return 0 }
         
-        let totalInterval = workoutModel.isWorking ? workoutModel.workTime : workoutModel.restTime
+        let totalInterval: Int
+        if workoutModel.isPreparing {
+            totalInterval = workoutModel.prepTime
+        } else if workoutModel.isWorking {
+            totalInterval = workoutModel.workTime
+        } else {
+            totalInterval = workoutModel.restTime
+        }
         return CGFloat(workoutModel.timeRemaining) / CGFloat(totalInterval)
+    }
+    
+    /// Computed property for the progress color based on current phase.
+    private var progressColor: Color {
+        if workoutModel.isPreparing {
+            return .blue
+        } else if workoutModel.isWorking {
+            return .green
+        } else {
+            return .orange
+        }
+    }
+    
+    /// Computed property for the status text based on current phase.
+    private var statusText: String {
+        if workoutModel.isPreparing {
+            return "PREPARE"
+        } else if workoutModel.isWorking {
+            return "WORK"
+        } else {
+            return "REST"
+        }
+    }
+    
+    /// Computed property for the status color based on current phase.
+    private var statusColor: Color {
+        if workoutModel.isPreparing {
+            return .blue
+        } else if workoutModel.isWorking {
+            return .green
+        } else {
+            return .orange
+        }
     }
     
     /// Converts seconds to a formatted time string (MM:SS).

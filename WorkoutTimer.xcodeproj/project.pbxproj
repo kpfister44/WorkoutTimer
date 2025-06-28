@@ -6,6 +6,17 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		214489A62E104EB900062046 /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 214489A22E104EB900062046 /* settings.png */; };
+		214489A72E104EB900062046 /* favorites.png in Resources */ = {isa = PBXBuildFile; fileRef = 214489A02E104EB900062046 /* favorites.png */; };
+		214489A82E104EB900062046 /* home_page.png in Resources */ = {isa = PBXBuildFile; fileRef = 214489A12E104EB900062046 /* home_page.png */; };
+		214489A92E104EB900062046 /* CLAUDE.md in Resources */ = {isa = PBXBuildFile; fileRef = 2144899D2E104EB900062046 /* CLAUDE.md */; };
+		214489AA2E104EB900062046 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 2144899E2E104EB900062046 /* LICENSE */; };
+		214489AB2E104EB900062046 /* time_picker.png in Resources */ = {isa = PBXBuildFile; fileRef = 214489A32E104EB900062046 /* time_picker.png */; };
+		214489AC2E104EB900062046 /* work.png in Resources */ = {isa = PBXBuildFile; fileRef = 214489A42E104EB900062046 /* work.png */; };
+		214489AD2E104EB900062046 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 2144899F2E104EB900062046 /* README.md */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		21077B2C2DCE909B0073FE9F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +38,14 @@
 		21077B1D2DCE90980073FE9F /* WorkoutTimer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WorkoutTimer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		21077B2B2DCE909B0073FE9F /* WorkoutTimerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WorkoutTimerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		21077B352DCE909B0073FE9F /* WorkoutTimerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WorkoutTimerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2144899D2E104EB900062046 /* CLAUDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CLAUDE.md; sourceTree = "<group>"; };
+		2144899E2E104EB900062046 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		2144899F2E104EB900062046 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		214489A02E104EB900062046 /* favorites.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = favorites.png; sourceTree = "<group>"; };
+		214489A12E104EB900062046 /* home_page.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home_page.png; sourceTree = "<group>"; };
+		214489A22E104EB900062046 /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
+		214489A32E104EB900062046 /* time_picker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = time_picker.png; sourceTree = "<group>"; };
+		214489A42E104EB900062046 /* work.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = work.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -75,6 +94,10 @@
 		21077B142DCE90980073FE9F = {
 			isa = PBXGroup;
 			children = (
+				2144899D2E104EB900062046 /* CLAUDE.md */,
+				2144899E2E104EB900062046 /* LICENSE */,
+				2144899F2E104EB900062046 /* README.md */,
+				214489A52E104EB900062046 /* Screenshots */,
 				21077B1F2DCE90980073FE9F /* WorkoutTimer */,
 				21077B2E2DCE909B0073FE9F /* WorkoutTimerTests */,
 				21077B382DCE909B0073FE9F /* WorkoutTimerUITests */,
@@ -90,6 +113,18 @@
 				21077B352DCE909B0073FE9F /* WorkoutTimerUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		214489A52E104EB900062046 /* Screenshots */ = {
+			isa = PBXGroup;
+			children = (
+				214489A02E104EB900062046 /* favorites.png */,
+				214489A12E104EB900062046 /* home_page.png */,
+				214489A22E104EB900062046 /* settings.png */,
+				214489A32E104EB900062046 /* time_picker.png */,
+				214489A42E104EB900062046 /* work.png */,
+			);
+			path = Screenshots;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -212,6 +247,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				214489A62E104EB900062046 /* settings.png in Resources */,
+				214489A72E104EB900062046 /* favorites.png in Resources */,
+				214489A82E104EB900062046 /* home_page.png in Resources */,
+				214489A92E104EB900062046 /* CLAUDE.md in Resources */,
+				214489AA2E104EB900062046 /* LICENSE in Resources */,
+				214489AB2E104EB900062046 /* time_picker.png in Resources */,
+				214489AC2E104EB900062046 /* work.png in Resources */,
+				214489AD2E104EB900062046 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

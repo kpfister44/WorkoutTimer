@@ -17,13 +17,36 @@ struct WorkoutSettingsView: View {
     /// Determines which time setting is being edited (work or rest).
     @State private var pickerType: PickerType = .work
     
-    /// Enum to distinguish between work and rest time picker types.
+    /// Enum to distinguish between work, rest, and prep time picker types.
     enum PickerType {
-        case work, rest
+        case work, rest, prep
     }
     
     var body: some View {
-        VStack(spacing: 40) {
+        VStack(spacing: 30) {
+            // Preparation time setting row.
+            HStack {
+                Text("PREP")
+                    .font(.title)
+                    .fontWeight(.bold)
+                Spacer()
+                Button(action: {
+                    pickerType = .prep
+                    showingPicker = true
+                }) {
+                    Text(timeString(from: workoutModel.prepTime))
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 28)
+                        .padding(.vertical, 12)
+                        .background(Color.blue)
+                        .cornerRadius(12)
+                        .frame(width: 150)
+                        .fixedSize()
+                }
+            }
+            
             // Work time setting row.
             HStack {
                 Text("WORK")
@@ -71,24 +94,54 @@ struct WorkoutSettingsView: View {
             }
         }
         .padding()
-        .frame(width: 320, height: 240)
+        .frame(width: 320, height: 300)
         .background(Color(.systemBackground))
         .cornerRadius(12)
         .sheet(isPresented: $showingPicker) {
             TimePickerSheet(
-                title: pickerType == .work ? "Work" : "Rest",
-                color: pickerType == .work ? .green : .orange,
-                initialSeconds: pickerType == .work ? workoutModel.workTime : workoutModel.restTime,
+                title: pickerTitle,
+                color: pickerColor,
+                initialSeconds: pickerInitialSeconds,
                 onDone: { newSeconds in
-                    if pickerType == .work {
+                    switch pickerType {
+                    case .prep:
+                        workoutModel.prepTime = newSeconds
+                    case .work:
                         workoutModel.workTime = newSeconds
-                    } else {
+                    case .rest:
                         workoutModel.restTime = newSeconds
                     }
                     showingPicker = false
                 },
                 onCancel: { showingPicker = false }
             )
+        }
+    }
+    
+    /// Computed property for the picker title based on picker type.
+    private var pickerTitle: String {
+        switch pickerType {
+        case .prep: return "Prep"
+        case .work: return "Work"
+        case .rest: return "Rest"
+        }
+    }
+    
+    /// Computed property for the picker color based on picker type.
+    private var pickerColor: Color {
+        switch pickerType {
+        case .prep: return .blue
+        case .work: return .green
+        case .rest: return .orange
+        }
+    }
+    
+    /// Computed property for the picker initial seconds based on picker type.
+    private var pickerInitialSeconds: Int {
+        switch pickerType {
+        case .prep: return workoutModel.prepTime
+        case .work: return workoutModel.workTime
+        case .rest: return workoutModel.restTime
         }
     }
     

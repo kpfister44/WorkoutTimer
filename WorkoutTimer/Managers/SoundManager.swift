@@ -49,6 +49,7 @@ class SoundManager {
     
     /// Enum representing the different sound events in the app.
     enum SoundEvent: String {
+        case prepStart = "prep_start"
         case workStart = "work_start"
         case restStart = "rest_start"
         case workoutComplete = "workout_complete"

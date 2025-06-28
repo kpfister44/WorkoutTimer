@@ -8,61 +8,94 @@ struct WorkoutStatusView: View {
     var body: some View {
         VStack(spacing: 30) {
             // Current round progress display.
-            Text("ROUND \(workoutModel.currentRound) OF \(workoutModel.rounds)")
+            Text(roundStatusText)
                 .font(.title)
                 .fontWeight(.bold)
                 .foregroundColor(.primary)
             
-            // Work and Rest interval information cards.
-            HStack(spacing: 30) {
+            // Work, Rest, and Prep interval information cards.
+            HStack(spacing: 20) {
+                // Preparation interval card with blue theme.
+                VStack(spacing: 8) {
+                    Text("PREP")
+                        .font(.title3)
+                        .fontWeight(.bold)
+                        .foregroundColor(.blue)
+                        .tracking(1.5)
+                    
+                    Text("\(workoutModel.prepTime)")
+                        .font(.system(.title2, design: .monospaced))
+                        .fontWeight(.bold)
+                        .foregroundColor(.blue)
+                    
+                    Text("SECONDS")
+                        .font(.subheadline)
+                        .fontWeight(.bold)
+                        .foregroundColor(.secondary)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 12)
+                .background(Color.blue.opacity(0.1))
+                .cornerRadius(10)
+                
                 // Work interval card with green theme.
                 VStack(spacing: 8) {
                     Text("WORK")
-                        .font(.title2)
+                        .font(.title3)
                         .fontWeight(.bold)
                         .foregroundColor(.green)
                         .tracking(1.5)
                     
                     Text("\(workoutModel.workTime)")
-                        .font(.system(.title, design: .monospaced))
+                        .font(.system(.title2, design: .monospaced))
                         .fontWeight(.bold)
                         .foregroundColor(.green)
                     
                     Text("SECONDS")
-                        .font(.headline)
+                        .font(.subheadline)
                         .fontWeight(.bold)
                         .foregroundColor(.secondary)
                 }
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, 16)
+                .padding(.vertical, 12)
                 .background(Color.green.opacity(0.1))
-                .cornerRadius(12)
+                .cornerRadius(10)
                 
                 // Rest interval card with orange theme.
                 VStack(spacing: 8) {
                     Text("REST")
-                        .font(.title2)
+                        .font(.title3)
                         .fontWeight(.bold)
                         .foregroundColor(.orange)
                         .tracking(1.5)
                     
                     Text("\(workoutModel.restTime)")
-                        .font(.system(.title, design: .monospaced))
+                        .font(.system(.title2, design: .monospaced))
                         .fontWeight(.bold)
                         .foregroundColor(.orange)
                     
                     Text("SECONDS")
-                        .font(.headline)
+                        .font(.subheadline)
                         .fontWeight(.bold)
                         .foregroundColor(.secondary)
                 }
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, 16)
+                .padding(.vertical, 12)
                 .background(Color.orange.opacity(0.1))
-                .cornerRadius(12)
+                .cornerRadius(10)
             }
         }
         .padding(20)
-        .frame(width: 300)
+    }
+    
+    /// Computed property for the round status text based on current phase.
+    private var roundStatusText: String {
+        if workoutModel.isPreparing {
+            return "GET READY"
+        } else if workoutModel.currentRound > 0 {
+            return "ROUND \(workoutModel.currentRound) OF \(workoutModel.rounds)"
+        } else {
+            return "ROUND 0 OF \(workoutModel.rounds)"
+        }
     }
 } 

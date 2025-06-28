@@ -19,8 +19,9 @@ class FavoriteWorkoutsManager {
     ///   - rounds: Number of rounds.
     ///   - workTime: Work time in seconds.
     ///   - restTime: Rest time in seconds.
-    func saveWorkout(name: String, rounds: Int, workTime: Int, restTime: Int) {
-        let workout = FavoriteWorkout(name: name, rounds: rounds, workTime: workTime, restTime: restTime)
+    ///   - prepTime: Preparation time in seconds.
+    func saveWorkout(name: String, rounds: Int, workTime: Int, restTime: Int, prepTime: Int = 10) {
+        let workout = FavoriteWorkout(name: name, rounds: rounds, workTime: workTime, restTime: restTime, prepTime: prepTime)
         var favorites = getFavorites()
         favorites.append(workout)
         

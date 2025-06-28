@@ -21,6 +21,7 @@ struct FavoritesView: View {
                     workoutModel.rounds = workout.rounds
                     workoutModel.workTime = workout.workTime
                     workoutModel.restTime = workout.restTime
+                    workoutModel.prepTime = workout.prepTime
                     presentationMode.wrappedValue.dismiss()
                 }) {
                     HStack {
@@ -28,7 +29,7 @@ struct FavoritesView: View {
                             Text(workout.name)
                                 .font(.headline)
                                 .fontWeight(.bold)
-                            Text("\(workout.rounds) rounds • \(workout.workTime)s work • \(workout.restTime)s rest")
+                            Text("\(workout.rounds) rounds • \(workout.prepTime)s prep • \(workout.workTime)s work • \(workout.restTime)s rest")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                         }
@@ -95,7 +96,8 @@ struct FavoritesView: View {
                         name: newWorkoutName,
                         rounds: workoutModel.rounds,
                         workTime: workoutModel.workTime,
-                        restTime: workoutModel.restTime
+                        restTime: workoutModel.restTime,
+                        prepTime: workoutModel.prepTime
                     )
                     newWorkoutName = ""
                     favorites = FavoriteWorkoutsManager.shared.getFavorites()

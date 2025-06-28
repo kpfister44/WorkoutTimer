@@ -5,10 +5,12 @@ class WorkoutModel: ObservableObject {
     @Published var rounds: Int = 3
     @Published var workTime: Int = 30 // in seconds
     @Published var restTime: Int = 10 // in seconds
+    @Published var prepTime: Int = 10 // in seconds
     
     @Published var currentRound: Int = 0
     @Published var timeRemaining: Int = 0
     @Published var isWorking: Bool = true
+    @Published var isPreparing: Bool = false
     @Published var isActive: Bool = false
     
     private var timer: AnyCancellable?
@@ -20,11 +22,12 @@ class WorkoutModel: ObservableObject {
     func startWorkout() {
         if !isActive {
             isActive = true
-            currentRound = 1
-            isWorking = true
-            timeRemaining = workTime
+            currentRound = 0
+            isPreparing = true
+            isWorking = false
+            timeRemaining = prepTime
             
-            SoundManager.shared.playSound(for: .workStart)
+            SoundManager.shared.playSound(for: .prepStart)
             startTimer()
         }
     }
@@ -44,6 +47,7 @@ class WorkoutModel: ObservableObject {
         currentRound = 0
         timeRemaining = 0
         isWorking = true
+        isPreparing = false
     }
     
     private func startTimer() {
@@ -61,7 +65,15 @@ class WorkoutModel: ObservableObject {
                     }
                 } else {
                     // Time's up for current interval
-                    if self.isWorking {
+                    if self.isPreparing {
+                        // End of preparation - start first round
+                        self.isPreparing = false
+                        self.currentRound = 1
+                        self.isWorking = true
+                        self.timeRemaining = self.workTime
+                        SoundManager.shared.playSound(for: .workStart)
+                        HapticManager.shared.notification(type: .warning)
+                    } else if self.isWorking {
                         // Check if this was the last round
                         if self.currentRound >= self.rounds {
                             // Workout complete - no final rest period
