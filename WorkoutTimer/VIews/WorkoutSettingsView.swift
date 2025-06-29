@@ -12,14 +12,21 @@ struct WorkoutSettingsView: View {
     /// Reference to the workout model for updating time settings.
     @ObservedObject var workoutModel: WorkoutModel
     
-    /// Controls the display of the time picker sheet.
-    @State private var showingPicker: Bool = false
-    /// Determines which time setting is being edited (work or rest).
-    @State private var pickerType: PickerType = .work
+    /// Data for the time picker sheet (nil = not showing)
+    @State private var sheetData: SheetData? = nil
     
     /// Enum to distinguish between work, rest, and prep time picker types.
     enum PickerType {
         case work, rest, prep
+    }
+    
+    /// Data structure for sheet presentation to avoid closure capture issues
+    struct SheetData: Identifiable {
+        let id = UUID()
+        let title: String
+        let color: Color
+        let initialSeconds: Int
+        let pickerType: PickerType
     }
     
     var body: some View {
@@ -31,8 +38,13 @@ struct WorkoutSettingsView: View {
                     .fontWeight(.bold)
                 Spacer()
                 Button(action: {
-                    pickerType = .prep
-                    showingPicker = true
+                    let data = SheetData(
+                        title: "Prep",
+                        color: .blue,
+                        initialSeconds: workoutModel.prepTime,
+                        pickerType: .prep
+                    )
+                    sheetData = data
                 }) {
                     Text(timeString(from: workoutModel.prepTime))
                         .font(.title)
@@ -54,8 +66,13 @@ struct WorkoutSettingsView: View {
                     .fontWeight(.bold)
                 Spacer()
                 Button(action: {
-                    pickerType = .work
-                    showingPicker = true
+                    let data = SheetData(
+                        title: "Work",
+                        color: .green,
+                        initialSeconds: workoutModel.workTime,
+                        pickerType: .work
+                    )
+                    sheetData = data
                 }) {
                     Text(timeString(from: workoutModel.workTime))
                         .font(.title)
@@ -77,8 +94,12 @@ struct WorkoutSettingsView: View {
                     .fontWeight(.bold)
                 Spacer()
                 Button(action: {
-                    pickerType = .rest
-                    showingPicker = true
+                    sheetData = SheetData(
+                        title: "Rest",
+                        color: .orange,
+                        initialSeconds: workoutModel.restTime,
+                        pickerType: .rest
+                    )
                 }) {
                     Text(timeString(from: workoutModel.restTime))
                         .font(.title)
@@ -97,13 +118,13 @@ struct WorkoutSettingsView: View {
         .frame(width: 320, height: 300)
         .background(Color(.systemBackground))
         .cornerRadius(12)
-        .sheet(isPresented: $showingPicker) {
+        .sheet(item: $sheetData) { data in
             TimePickerSheet(
-                title: pickerTitle,
-                color: pickerColor,
-                initialSeconds: pickerInitialSeconds,
+                title: data.title,
+                color: data.color,
+                initialSeconds: data.initialSeconds,
                 onDone: { newSeconds in
-                    switch pickerType {
+                    switch data.pickerType {
                     case .prep:
                         workoutModel.prepTime = newSeconds
                     case .work:
@@ -111,39 +132,13 @@ struct WorkoutSettingsView: View {
                     case .rest:
                         workoutModel.restTime = newSeconds
                     }
-                    showingPicker = false
+                    sheetData = nil  // Dismiss sheet
                 },
-                onCancel: { showingPicker = false }
+                onCancel: { sheetData = nil }  // Dismiss sheet
             )
         }
     }
     
-    /// Computed property for the picker title based on picker type.
-    private var pickerTitle: String {
-        switch pickerType {
-        case .prep: return "Prep"
-        case .work: return "Work"
-        case .rest: return "Rest"
-        }
-    }
-    
-    /// Computed property for the picker color based on picker type.
-    private var pickerColor: Color {
-        switch pickerType {
-        case .prep: return .blue
-        case .work: return .green
-        case .rest: return .orange
-        }
-    }
-    
-    /// Computed property for the picker initial seconds based on picker type.
-    private var pickerInitialSeconds: Int {
-        switch pickerType {
-        case .prep: return workoutModel.prepTime
-        case .work: return workoutModel.workTime
-        case .rest: return workoutModel.restTime
-        }
-    }
     
     /// Converts seconds to a formatted time string (MM:SS).
     /// - Parameter seconds: The number of seconds to format.
