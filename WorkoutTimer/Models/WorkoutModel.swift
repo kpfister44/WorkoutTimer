@@ -59,7 +59,10 @@ class WorkoutModel: ObservableObject {
                 if self.timeRemaining > 0 {
                     self.timeRemaining -= 1
                     
-                    // Add haptic feedback for last 3 seconds of each interval
+                    // Add haptic feedback and audio for last 3 seconds of work/rest intervals
+                    if self.timeRemaining == 3 && !self.isPreparing {
+                        SoundManager.shared.playSound(for: .lastThreeSeconds)
+                    }
                     if self.timeRemaining <= 3 && self.timeRemaining > 0 {
                         HapticManager.shared.impact(style: .medium)
                     }
@@ -72,6 +75,14 @@ class WorkoutModel: ObservableObject {
                         self.isWorking = true
                         self.timeRemaining = self.workTime
                         SoundManager.shared.playSound(for: .workStart)
+                        
+                        // Play final round audio if this is the only/last round
+                        if self.currentRound == self.rounds {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                                SoundManager.shared.playSound(for: .finalRound)
+                            }
+                        }
+                        
                         HapticManager.shared.notification(type: .warning)
                     } else if self.isWorking {
                         // Check if this was the last round
@@ -93,6 +104,14 @@ class WorkoutModel: ObservableObject {
                         self.isWorking = true
                         self.timeRemaining = self.workTime
                         SoundManager.shared.playSound(for: .workStart)
+                        
+                        // Play final round audio if this is the last round
+                        if self.currentRound == self.rounds {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                                SoundManager.shared.playSound(for: .finalRound)
+                            }
+                        }
+                        
                         HapticManager.shared.notification(type: .warning)
                     }
                 }

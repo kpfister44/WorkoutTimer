@@ -53,5 +53,7 @@ class SoundManager {
         case workStart = "work_start"
         case restStart = "rest_start"
         case workoutComplete = "workout_complete"
+        case finalRound = "final_round"
+        case lastThreeSeconds = "last_three_seconds"
     }
 } 
