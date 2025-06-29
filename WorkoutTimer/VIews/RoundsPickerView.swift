@@ -30,9 +30,9 @@ struct RoundsPickerView: View {
                     .fontWeight(.bold)
                     .frame(minWidth: 80)
                 
-                // Increment button - increases rounds (maximum 20).
+                // Increment button - increases rounds (maximum 60).
                 Button(action: {
-                    if rounds < 20 { rounds += 1 }
+                    if rounds < 60 { rounds += 1 }
                 }) {
                     Image(systemName: "plus.circle.fill")
                         .font(.largeTitle)
