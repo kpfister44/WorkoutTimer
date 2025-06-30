@@ -1,5 +1,6 @@
 import Foundation
 import Combine
+import UIKit
 
 class WorkoutModel: ObservableObject {
     @Published var rounds: Int = 3
@@ -27,6 +28,9 @@ class WorkoutModel: ObservableObject {
             isWorking = false
             timeRemaining = prepTime
             
+            // Prevent screen from sleeping during workout
+            UIApplication.shared.isIdleTimerDisabled = true
+            
             SoundManager.shared.playSound(for: .prepStart)
             startTimer()
         }
@@ -48,6 +52,9 @@ class WorkoutModel: ObservableObject {
         timeRemaining = 0
         isWorking = true
         isPreparing = false
+        
+        // Re-enable screen sleep when workout ends
+        UIApplication.shared.isIdleTimerDisabled = false
     }
     
     private func startTimer() {
@@ -90,6 +97,8 @@ class WorkoutModel: ObservableObject {
                             // Workout complete - no final rest period
                             SoundManager.shared.playSound(for: .workoutComplete)
                             HapticManager.shared.notification(type: .success)
+                            // Re-enable screen sleep when workout completes
+                            UIApplication.shared.isIdleTimerDisabled = false
                             self.resetWorkout()
                         } else {
                             // Switch to rest

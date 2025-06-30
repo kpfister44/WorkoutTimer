@@ -15,6 +15,10 @@ struct ContentView: View {
     @State private var showingSettings = false
     /// App storage for dark mode preference that persists across app launches.
     @AppStorage("isDarkMode") private var isDarkMode = false
+    /// Controls the display of the battery warning alert.
+    @State private var showingBatteryWarning = false
+    /// App storage to track if battery warning has been shown before.
+    @AppStorage("hasShownBatteryWarning") private var hasShownBatteryWarning = false
     
     var body: some View {
         NavigationStack {
@@ -35,7 +39,11 @@ struct ContentView: View {
                         Spacer()
                         // Start workout button.
                         Button(action: {
-                            workoutModel.startWorkout()
+                            if !hasShownBatteryWarning {
+                                showingBatteryWarning = true
+                            } else {
+                                workoutModel.startWorkout()
+                            }
                         }) {
                             Text("START")
                                 .font(.title)
@@ -90,6 +98,15 @@ struct ContentView: View {
                 .presentationDragIndicator(.visible)
         }
         .preferredColorScheme(isDarkMode ? .dark : .light)
+        .alert("Screen Will Stay On", isPresented: $showingBatteryWarning) {
+            Button("Got It") {
+                hasShownBatteryWarning = true
+                workoutModel.startWorkout()
+            }
+            Button("Cancel", role: .cancel) { }
+        } message: {
+            Text("During workouts, the screen will stay on to prevent the timer from stopping. This may use more battery than usual.")
+        }
     }
     
     /// Converts total workout time from seconds to a formatted string (MM:SS).
